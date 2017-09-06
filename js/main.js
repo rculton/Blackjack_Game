@@ -368,7 +368,14 @@ var game = {
     deal: function(){
         if(isClickable){    
             game.currentPlayer.hand.push(cards[shuffleArray[0]])
-            $gameBoard.append('<img id="" src="' +cards[shuffleArray[0]].faceImg+'"/>')
+            if (game.currentPlayer === game.player[2])
+                {
+                    $dealerBoard.append('<img id="" src="' +cards[shuffleArray[0]].faceImg+'"/>')
+                }
+            else{
+                $playerBoard.append('<img id="" src="' +cards[shuffleArray[0]].faceImg+'"/>')
+            }
+            //$gameBoard.append('<img id="" src="' +cards[shuffleArray[0]].faceImg+'"/>')
             shuffleArray.splice(0,1)
             if (shuffleArray[0] === undefined)
             {
@@ -401,12 +408,8 @@ var game = {
     stay: function(){
         // debugger
         isClickable=false;
-        setTimeout(function() {
-            $gameBoard.empty();
-          }, 1000);
-          setTimeout(function() {
+
             game.houseRules();
-          }, 1500);
     },
     //check for hand value, and if it exceeds 21
     checkBust: function(){
@@ -516,7 +519,8 @@ var game = {
                 game.player[1].handValue = 0
                 game.player[2].handValue = 0
                 setTimeout(function() {
-                    $gameBoard.empty();
+                    $playerBoard.empty();
+                    $dealerBoard.empty();
                     $handValue.text('Hand Value: '+ 0)
                     isClickable=true;
                   }, 1000);
@@ -556,10 +560,11 @@ var game = {
                 game.player[2].hand = []
                 game.player[0].handValue = 0
                 game.player[1].handValue = 0
-                game.player[2].handValue = 
+                game.player[2].handValue = 0
                 game.currentPlayer = game.player[playIndex] 
                 setTimeout(function() {
-                    $gameBoard.empty();
+                    $playerBoard.empty();
+                    $dealerBoard.empty();
                     $handValue.text('Hand Value: '+ 0)
                     console.log('Hello there!')
                     isClickable=true;
@@ -603,7 +608,8 @@ var game = {
                         game.player[1].handValue = 0
                         game.player[2].handValue = 0
                         setTimeout(function() {
-                            $gameBoard.empty();
+                            $playerBoard.empty();
+                            $dealerBoard.empty();
                             $handValue.text('Hand Value: '+ 0);      
                             isClickable=true;    
                           }, 1500);
@@ -636,7 +642,8 @@ var game = {
         roundCounter = 1
         $roundCounter.text('Round: '+ roundCounter)
         $handValue.text('Hand Value: '+ game.currentPlayer.handValue)
-        $gameBoard.empty()
+        $playerBoard.empty();
+        $dealerBoard.empty();
     }
 }
 
@@ -665,7 +672,10 @@ var shuffleArray = []
 //game initialize
 game.shuffle()
 //jquery of the game board
-$gameBoard = $('#game-board')
+$gameBoard = $('.game-board')
+$dealerBoard =$('#dealerZone')
+$playerBoard = $('#playerZone')
+
 
 //jquery of hand value
 $handValue = $('#hand-value')

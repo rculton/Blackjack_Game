@@ -20,10 +20,14 @@ button {
     height: 100%;
 }
     
-#game-board {
+.game-board {
     width: 99%;
     height: 52%;
     background-image: url(../images/table-felt-2.jpg);
+}
+.cardField{
+    width: 99%;
+    height: 49%;
 }
 
 #reset-div{
