@@ -399,6 +399,7 @@ var game = {
     },
     //A function to perform "stay" action. Possible use later when switching between 2 players BEFORE going to house
     stay: function(){
+        // debugger
         isClickable=false;
         setTimeout(function() {
             $gameBoard.empty();
@@ -406,7 +407,7 @@ var game = {
           setTimeout(function() {
             isClickable=true;
             game.houseRules();
-          }, 1001);
+          }, 1500);
     },
     //check for hand value, and if it exceeds 21
     checkBust: function(){
@@ -442,8 +443,7 @@ var game = {
                         isClickable=true;})
                 }) 
                 game.currentPlayer.busted = true;
-
-                setTimeout(function(){$gameBoard.empty()},1000)
+                game.currentPlayer.handValue = 0;
                 return;
             }
         else{
@@ -462,14 +462,14 @@ var game = {
     },
     //Update the win count, and reset the scores
     updateWins: function(){
-        debugger
         if(game.player[0].score > game.player[1].score){
-            p1Score +=1
-            $p1Wins.text("Player 1 Wins: "+ p1Score)
+            p1TotalWins +=1
+            console.log("I'M HERE")
+            $p1Wins.text("Player 1 Wins: "+ p1TotalWins)
         }
         else if(game.player[0].score < game.player[1].score){
             p2Score +=1
-            $p2Wins.text("Player 2 Wins: "+ p2Score)
+            $p2Wins.text("Player 2 Wins: "+ p2TotalWins)
         }
         else{
             $alerts.fadeOut(10, function() { 
@@ -514,6 +514,9 @@ var game = {
                 game.player[1].hand = []
                 game.player[2].hand = []
                 isClickable=false;
+                game.player[0].handValue = 0
+                game.player[1].handValue = 0
+                game.player[2].handValue = 0
                 setTimeout(function() {
                     $gameBoard.empty();
                     isClickable=true;
@@ -546,7 +549,10 @@ var game = {
                 game.player[2].busted = false   
                 game.player[0].hand = []
                 game.player[1].hand = []
-                game.player[2].hand = [] 
+                game.player[2].hand = []
+                game.player[0].handValue = 0
+                game.player[1].handValue = 0
+                game.player[2].handValue = 0
                 isClickable=false;
                 var $theAlert = $('<h2>House Wins!</h2>')
                 $theAlert.prependTo($alerts).hide().slideDown(1000, function() {
@@ -591,6 +597,9 @@ var game = {
                         game.player[0].hand = []
                         game.player[1].hand = []
                         game.player[2].hand = []
+                        game.player[0].handValue = 0
+                        game.player[1].handValue = 0
+                        game.player[2].handValue = 0
                         isClickable = false;
                         setTimeout(function() {
                             $gameBoard.empty();
@@ -641,10 +650,10 @@ game.currentPlayer = game.player[0]
  $roundCounter = $('#round-counter')
 
  //elements for tracking, displaying, and calculating the wins
- $p1Wins = $('#p1-win-counter')
- $p2Wins = $('#p2-win-counter')
- p1Score = 0
- p2Score = 0
+ $p1Wins = $('#p1Wins')
+ $p2Wins = $('#p2Wins')
+ p1TotalWins = 0
+ p2TotalWins = 0
 
  //Alert Box jquery, for later access
  var $alerts = $('.alert-box')
@@ -653,7 +662,6 @@ game.currentPlayer = game.player[0]
 var shuffleArray = []
 //game initialize
 game.shuffle()
-
 //jquery of the game board
 $gameBoard = $('#game-board')
 
