@@ -4,35 +4,34 @@ body{
     background-image: url("../images/walnut-wood.jpg")
 }
 
-div{
+div {
     display: inline-block;
     border: solid black;
-    width: 38vw;
-    height: 100px;
+    width: 37vw;
+    height: 8vh;
     padding: 0;
-    margin-left: 0.75vw;
-    background-image: url("../images/mahogany-wood.jpg");
+    margin-left: 0.12vw;
+    background-image: url(../images/mahogany-wood.jpg);
     vertical-align: bottom;
 }
-.button-div{
-    height: 40px;
-    width: 38vw;
+.button-div {
+    height: 5vh;
+    width: 37vw;
 }
-button{
-    width: 38vw;
-    height: 40px;
+button {
+    width: 37vw;
+    height: 5vh;
 }
     
-#game-board{
-    width: 78vw;
-    height: 374px;
-    background-image: url("../images/table-felt.png");
-    
+#game-board {
+    width: 75.1vw;
+    height: 52vh;
+    background-image: url(../images/table-felt-2.jpg);
 }
 
-#reset-div,#reset-button{
-    width: 78vw;
-    height: 40px;
+#reset-div, #reset-button {
+    width: 75.1vw;
+    height: 5vh;
 }
 
 h2{
@@ -51,4 +50,8 @@ img{
     display: inline-block;
     margin: 0 auto;
     padding: 3px;
+}
+#SUPERDIV {
+    width: 76vw;
+    height: 100vh;
 }
