@@ -6,45 +6,53 @@ body{
 
 div {
     display: inline-block;
-    border: solid black;
-    width: 37vw;
-    height: 8%;
+    width: 49%;
+    height: 9%;
     padding: 0;
     margin-left: 0.12vw;
-    background-image: url(../images/mahogany-wood.jpg);
     vertical-align: bottom;
 }
 .button-div {
     height: 5%;
-    width: 37vw;
 }
 button {
-    width: 37vw;
-    height: 5vh;
+    width: 100%;
+    height: 100%;
 }
     
 #game-board {
-    width: 75.1vw;
+    width: 99%;
     height: 52%;
     background-image: url(../images/table-felt-2.jpg);
 }
 
-#reset-div, #reset-button {
-    width: 75.1vw;
+#reset-div{
+    width: 99.5%;
     height: 5%;
 }
 #reset-button{
-    height: 5vh;
+    height: 100%;
+    width: 100%
 }
 
-h2{
+h2 {
     text-align: center;
-    float: center;
+    font-size: 2vw;
+    font-family: 'Holtwood One SC', serif;
+    opacity: 0.65
 }
+h3 {
+    text-align: center;
+    font-size: 1vw;
+    font-family: 'Holtwood One SC', serif;
+    opacity: 0.65;
+}
+
 
 #info-div {
     width: 76vw;
     height: auto;
+    background-image: url(../images/mahogany-wood.jpg);
 }
 
 hr{
@@ -52,13 +60,14 @@ hr{
 }
 
 img{
-    height: 170px;
     width: auto;
+    height: 35%;
     display: inline-block;
     margin: 0 auto;
-    padding: 3px;
+    padding: 1vw;
 }
 #SUPERDIV {
     width: 76vw;
     height: 100vh;
+    background-image: url(../images/mahogany-wood.jpg);
 }

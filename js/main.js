@@ -527,7 +527,8 @@ var game = {
         }
         else if(game.currentPlayer.handValue >= game.player[playIndex].handValue)
             {
-                console.log('House Wins!')
+                isClickable=false;
+                //console.log('House Wins!')
                 //House Wins
                 //change players if new deck
                 if (newDeck)
@@ -553,10 +554,9 @@ var game = {
                 game.player[0].handValue = 0
                 game.player[1].handValue = 0
                 game.player[2].handValue = 0
-                isClickable=false;
                 var $theAlert = $('<h2>House Wins!</h2>')
                 $theAlert.prependTo($alerts).hide().slideDown(1000, function() {
-                    $alerts.children("h2:first").fadeOut(1000, function(){$(this).remove();
+                    $(this).fadeOut(1000, function(){$(this).remove();
                         $handValue.text('Hand Value: '+ 0);})
                   });
                   setTimeout(function() {
@@ -633,7 +633,7 @@ var game = {
         $p2Wins.text("Player 2 Wins: "+ p2Score)
         game.currentPlayer=game.player[0]
         roundCounter = 1
-        $roundCounter.text('Round : '+ roundCounter)
+        $roundCounter.text('Round: '+ roundCounter)
         $handValue.text('Hand Value: '+ game.currentPlayer.handValue)
     }
 }
