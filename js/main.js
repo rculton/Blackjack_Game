@@ -405,7 +405,6 @@ var game = {
             $gameBoard.empty();
           }, 1000);
           setTimeout(function() {
-            isClickable=true;
             game.houseRules();
           }, 1500);
     },
@@ -439,8 +438,7 @@ var game = {
                 $handValue.text('Hand Value: '+ game.currentPlayer.handValue)
                 var $theAlert = $('<h2>' + game.currentPlayer.name.toUpperCase() +' BUST!</h2>')
                 $theAlert.prependTo($alerts).hide().slideDown(500, function(){
-                    $alerts.children("h2:first").fadeOut(1000, function(){$(this).remove();
-                        isClickable=true;})
+                    $alerts.children("h2:first").fadeOut(1000, function(){$(this).remove();})
                 }) 
                 game.currentPlayer.busted = true;
                 game.currentPlayer.handValue = 0;
@@ -485,6 +483,7 @@ var game = {
     houseRules: function(){
         game.currentPlayer = game.player[2]
         if(game.player[playIndex].handValue === 21){
+            isClickable=false;
                 //Player gains score                
                 game.currentPlayer = game.player[playIndex]
                 game.updateScore()
@@ -513,14 +512,13 @@ var game = {
                 game.player[0].hand = []
                 game.player[1].hand = []
                 game.player[2].hand = []
-                isClickable=false;
                 game.player[0].handValue = 0
                 game.player[1].handValue = 0
                 game.player[2].handValue = 0
                 setTimeout(function() {
                     $gameBoard.empty();
-                    isClickable=true;
                     $handValue.text('Hand Value: '+ 0)
+                    isClickable=true;
                   }, 1000);
 
                 return;
@@ -528,6 +526,11 @@ var game = {
         else if(game.currentPlayer.handValue >= game.player[playIndex].handValue)
             {
                 isClickable=false;
+                var $theAlert = $('<h2>House Wins!</h2>')
+                $theAlert.prependTo($alerts).hide().slideDown(1000, function() {
+                    $(this).fadeOut(1000, function(){$(this).remove();
+                        ;})
+                  });
                 //console.log('House Wins!')
                 //House Wins
                 //change players if new deck
@@ -543,7 +546,7 @@ var game = {
                             }
                         newDeck = false
                     }
-                game.currentPlayer = game.player[playIndex]                
+               
                 //Wipe hands
                 game.player[0].busted = false
                 game.player[1].busted = false
@@ -553,22 +556,21 @@ var game = {
                 game.player[2].hand = []
                 game.player[0].handValue = 0
                 game.player[1].handValue = 0
-                game.player[2].handValue = 0
-                var $theAlert = $('<h2>House Wins!</h2>')
-                $theAlert.prependTo($alerts).hide().slideDown(1000, function() {
-                    $(this).fadeOut(1000, function(){$(this).remove();
-                        $handValue.text('Hand Value: '+ 0);})
-                  });
-                  setTimeout(function() {
-
+                game.player[2].handValue = 
+                game.currentPlayer = game.player[playIndex] 
+                setTimeout(function() {
                     $gameBoard.empty();
+                    $handValue.text('Hand Value: '+ 0)
+                    console.log('Hello there!')
                     isClickable=true;
                   }, 1500);
                 return;
             }           
         else if(game.currentPlayer.handValue < game.player[playIndex].handValue)
             {
+                    isClickable=true;
                     game.deal();
+                    isClickable=false;
                     if(game.currentPlayer.busted){
                             //Player gains score
                              
@@ -600,11 +602,10 @@ var game = {
                         game.player[0].handValue = 0
                         game.player[1].handValue = 0
                         game.player[2].handValue = 0
-                        isClickable = false;
                         setTimeout(function() {
                             $gameBoard.empty();
-                            isClickable=true; 
-                            $handValue.text('Hand Value: '+ 0);         
+                            $handValue.text('Hand Value: '+ 0);      
+                            isClickable=true;    
                           }, 1500);
 
                         return;
@@ -617,7 +618,8 @@ var game = {
     },
     //Reset the game to a starting state
     reset: function(){
-        game.player[0].score=0;
+        game.currentPlayer=game.player[0]
+        game.player[0].score=-1;
         game.player[1].score=0;
         game.player[0].handValue = 0;
         game.player[1].handValue = 0;
@@ -631,10 +633,10 @@ var game = {
         game.updateScore()
         $p1Wins.text("Player 1 Wins: "+ p1Score)
         $p2Wins.text("Player 2 Wins: "+ p2Score)
-        game.currentPlayer=game.player[0]
         roundCounter = 1
         $roundCounter.text('Round: '+ roundCounter)
         $handValue.text('Hand Value: '+ game.currentPlayer.handValue)
+        $gameBoard.empty()
     }
 }
 
