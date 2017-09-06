@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Blackjack</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <script src="js/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+    <div>
+        <!-- This div contains the title box -->
+        <h2>VS Blackjack</h2>
+    </div>
+    <div>
+        <!-- This div contains the round counter -->
+        <h2 id='round-counter'>Round: 1</h2>
+
+    </div>
+
+    <!-- NEW LINE -->
+    <div id="#p1-win-counter"><h2>Player 1 Wins: 0</h2></div>
+    <div id="#p2-win-counter"><h2>Player 2 Wins: 0</h2></div>
+    <div>
+        <!-- This div contains player 1's score -->
+        <h2 id="p1-Score"> Current Score: 0</h2>
+    </div>
+    <div>
+        <!-- This div contains player 2's score -->
+        <h2 id="p2-Score"> Current Score: 0</h2>
+    </div>
+
+    <!-- NEW LINE -->
+
+    <div class='button-div'>
+        <!-- This div will contain the hit button -->
+        <button id="hitMe">HIT</button>
+    </div>
+    <div class='button-div'>
+        <!-- This div will contain the stay button -->
+        <button id="stayButton">STAY</button>
+    </div>
+
+    <!-- NEW LINE -->
+
+    <div id="game-board">
+        <!-- This div will contain the active cards -->
+        
+    </div>
+
+    <!-- NEW LINE -->
+
+    <div>
+        <!-- This div contains the numerical information for the hand value -->
+        <h2 id="hand-value">Hand Value: 0</h2>
+    </div>
+    <div class="alert-box">
+        <!-- This div contains temporary alerts for the player -->
+    </div>
+
+    <!-- NEW LINE -->
+
+    <div id="reset-div">
+        <!-- This div will contain the reset button -->
+        <button id="reset-button">RESET</button>
+    </div>
+    
+    <hr>
+    
+    <div id="info-div">
+        <!-- This div will contain links to the readme.md on github -->
+        <h2>Information</h2>
+    </div>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

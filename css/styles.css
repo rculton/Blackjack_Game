@@ -1,0 +1,54 @@
+body{
+    width: 80%;
+    margin: 10%;
+    background-image: url("../images/walnut-wood.jpg")
+}
+
+div{
+    display: inline-block;
+    border: solid black;
+    width: 38vw;
+    height: 100px;
+    padding: 0;
+    margin-left: 0.75vw;
+    background-image: url("../images/mahogany-wood.jpg");
+    vertical-align: bottom;
+}
+.button-div{
+    height: 40px;
+    width: 38vw;
+}
+button{
+    width: 38vw;
+    height: 40px;
+}
+    
+#game-board{
+    width: 78vw;
+    height: 374px;
+    background-image: url("../images/table-felt.png");
+    
+}
+
+#reset-div,#reset-button{
+    width: 78vw;
+    height: 40px;
+}
+
+h2{
+    text-align: center;
+    float: center;
+}
+
+#info-div{
+    width: 78vw;
+    height: auto;
+}
+
+img{
+    height: 170px;
+    width: auto;
+    display: inline-block;
+    margin: 0 auto;
+    padding: 3px;
+}
