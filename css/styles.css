@@ -8,14 +8,14 @@ div {
     display: inline-block;
     border: solid black;
     width: 37vw;
-    height: 8vh;
+    height: 8%;
     padding: 0;
     margin-left: 0.12vw;
     background-image: url(../images/mahogany-wood.jpg);
     vertical-align: bottom;
 }
 .button-div {
-    height: 5vh;
+    height: 5%;
     width: 37vw;
 }
 button {
@@ -25,12 +25,15 @@ button {
     
 #game-board {
     width: 75.1vw;
-    height: 52vh;
+    height: 52%;
     background-image: url(../images/table-felt-2.jpg);
 }
 
 #reset-div, #reset-button {
     width: 75.1vw;
+    height: 5%;
+}
+#reset-button{
     height: 5vh;
 }
 
@@ -39,9 +42,13 @@ h2{
     float: center;
 }
 
-#info-div{
-    width: 78vw;
+#info-div {
+    width: 76vw;
     height: auto;
+}
+
+hr{
+    visibility: hidden;
 }
 
 img{
