@@ -1,3 +1,4 @@
+
 body{
     width: 80%;
     margin: 10%;
@@ -28,6 +29,7 @@ button {
 .cardField{
     width: 99%;
     height: 49%;
+    font-size: 12px;
 }
 
 #reset-div{
