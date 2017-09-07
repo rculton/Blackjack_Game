@@ -451,7 +451,7 @@ var game = {
             handValue: 0,
             score: 0,
             busted: false,
-            scoreField: $p1Score,
+            scoreField: $p1Wins,
         },
         {
             name: 'Player 2',
@@ -460,7 +460,7 @@ var game = {
             handValue:0,
             score: 0,
             busted: false,
-            scoreField: $p2Score,
+            scoreField: $p2Wins,
         },
         {
             name:'House',
