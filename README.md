@@ -2,7 +2,31 @@
 A 2 player game project
 
 ## Technologies Used
-This project uses Javascript for most of the game logic, jQuery for DOM manipulation, HTML for the static board setup, and CSS for the appearance. The CSS utilizes the vw and vh properties to make the board scalable
+### Javascript
+This was used to run all of the game logic. Everything from what's in the players hand, to how the dealer will try to beat the player, is done entirely in the javascript
+
+### jQuery
+This was used for the DOM manipulation, and for most changes to the graphics. Text alerts (in the bottom right area) are created and removed, the cards are added to and taken from the play area, and all of the score displays are handled with jQuery
+
+### HTML
+This was used to create the static skeleton for the project. Most everything is divided into div tags for standardization. It also makes relative sizing easier since they can share CSS properties without needing extra classes
+
+### CSS
+This was used to style the visuals. vw, vh, and percentages are used in tandem to make the board mostly scalable.
+
+
+#### Images Preloader
+I used an image preloading code snippet which I found [here](https://stackoverflow.com/a/476681), I used this to address the issue with image load time. It's a function that you pass a list of image addresses, and it stores them in the browser cache. When the images are later appended to an area in the DOM, they show up much quicker since they already exist somewhere.
+
+```javascript
+
+function preload(arrayOfImages) {
+    $(arrayOfImages).each(function(){
+        $('<img/>')[0].src = this;
+    });
+}
+```
+
 
 ## Approach Taken
 The project was broken down into 3 major phases.
@@ -49,6 +73,7 @@ This project was developed using trello. User Stories were created to help targe
 
 ## Missing Commits???
 During the process of making this project, I ran into an issue with pushing to my github repository. I worked around this by copying the project and putting it into a new folder. The old commits are visible in the "Missing Commits" folder, or [here](https://github.com/rculton/blackjack-game/commits/master) in the original project. 
+
 
 ## Closing Notes
 Thank you for taking the time to check out my project. This is my first major project as a web developer, and I'm just learning the ropes of DOM manipulation and javascript. If you have any feedback send it to rculton@protonmail.com
