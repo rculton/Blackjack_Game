@@ -775,12 +775,7 @@ var game = {
         playIndex = 0
         game.player[0].score=-1;
         game.player[1].score=0;
-        game.player[0].handValue = 0;
-        game.player[1].handValue = 0;
-        game.player[2].handValue=0;
-        game.player[0].busted = false;
-        game.player[1].busted=false;
-        game.player[2].busted=false;
+        game.handWipe();
         p1Score=0;
         p2Score=0;
         game.shuffle();
