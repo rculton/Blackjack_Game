@@ -33,6 +33,9 @@ This game requires minimal setup. You should only need to visit the github pages
 6. If you want to start your competition all over, hit the reset button at the bottom to play from a fresh start
 7. There is no final end to the game. You can keep playing "just one more round" for as long as you want.
 
+##Trello
+This project was developed using trello. User Stories were created to help target work flow and build features. You can find the trello board [here](https://trello.com/b/t0QLkrbU/blackjack).
+
 ##Closing Notes
 Thank you for taking the time to check out my project. This is my first major project as a web developer, and I'm just learning the ropes of DOM manipulation and javascript. If you have any feedback send it to rculton@protonmail.com
 
