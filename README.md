@@ -61,12 +61,14 @@ This game requires minimal setup. You should only need to visit the github pages
 
 ## How To Play
 1. Players will alternate every time the deck runs out of cards. It's a competition to see who can beat the dealer more times!
-2. Players can beat the dealer if they score higher than the dealer, the dealer busts, or the player scores any kind of 21! Unlike normal blackjack, there are more win options to add incentives to risking
-3. Players do not have to choose if all their aces are high or low. They will change automatically and individually based on if you would have busted. Take risks if you want to be the winner
-4. Click the hit button to add cards to your hand
-5. Hit the stay button if you want to keep the cards you already have
-6. If you want to start your competition all over, hit the reset button at the bottom to play from a fresh start
-7. There is no final end to the game. You can keep playing "just one more round" for as long as you want.
+2. The goal for each hand is to get as close to 21 without going over
+3. If you go over 21, you lose that hand. If the dealer can beat your hands value, you lose that hand!
+4. Players can beat the dealer if they score higher than the dealer, the dealer busts, or the player scores any kind of 21! Unlike normal blackjack, there are more win options to add incentives to risking
+5. Players do not have to choose if all their aces are high or low. They will change automatically and individually based on if you would have busted. Take risks if you want to be the winner
+6. Click the hit button to add cards to your hand
+7. Hit the stay button if you want to keep the cards you already have
+8. If you want to start your competition all over, hit the reset button at the bottom to play from a fresh start
+9. There is no final end to the game. You can keep playing "just one more round" for as long as you want.
 
 ## Trello
 This project was developed using trello. User Stories were created to help target work flow and build features. You can find the trello board [here](https://trello.com/b/t0QLkrbU/blackjack).
@@ -76,6 +78,6 @@ During the process of making this project, I ran into an issue with pushing to m
 
 
 ## Closing Notes
-Thank you for taking the time to check out my project. This is my first major project as a web developer, and I'm just learning the ropes of DOM manipulation and javascript. If you have any feedback send it to rculton@protonmail.com
+Thank you for taking the time to check out my project. This is my first major project as a web developer, and I'm just learning the ropes of DOM manipulation and javascript. If you have any feedback send it to [rculton@protonmail.com](mailto:rculton@protonmail.com)
 
 This code is open source, so if you're making your own project and see something in my code you think might help, feel free to use it. 
