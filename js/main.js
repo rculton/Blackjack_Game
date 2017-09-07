@@ -744,3 +744,67 @@ var isClickable = true;
 function deckNuker(){
     shuffleArray.splice(0,shuffleArray.length-1)
 }
+
+//pre-loader for images for more responsive loading in browser
+//Sourced from: https://stackoverflow.com/a/476681
+function preload(arrayOfImages) {
+    $(arrayOfImages).each(function(){
+        $('<img/>')[0].src = this;
+    });
+}
+
+//pre-load
+preload([
+    'images/ace_of_hearts.svg',
+     'images/2_of_hearts.svg',
+     'images/3_of_hearts.svg',
+     'images/4_of_hearts.svg',
+     'images/5_of_hearts.svg',
+     'images/6_of_hearts.svg',
+     'images/7_of_hearts.svg',
+     'images/8_of_hearts.svg',
+     'images/9_of_hearts.svg',
+     'images/10_of_hearts.svg',
+     'images/jack_of_hearts.svg',
+     'images/queen_of_hearts.svg',
+     'images/king_of_hearts.svg',
+     'images/ace_of_clubs.svg',
+     'images/2_of_clubs.svg',
+     'images/3_of_clubs.svg',
+     'images/4_of_clubs.svg',
+     'images/5_of_clubs.svg',
+     'images/6_of_clubs.svg',
+     'images/7_of_clubs.svg',
+     'images/8_of_clubs.svg',
+     'images/9_of_clubs.svg',
+     'images/10_of_clubs.svg',
+     'images/jack_of_clubs.svg',
+     'images/queen_of_clubs.svg',
+     'images/king_of_clubs.svg',
+     'images/ace_of_diamonds.svg',
+     'images/2_of_diamonds.svg',
+     'images/3_of_diamonds.svg',
+     'images/4_of_diamonds.svg',
+     'images/5_of_diamonds.svg',
+     'images/6_of_diamonds.svg',
+     'images/7_of_diamonds.svg',
+     'images/8_of_diamonds.svg',
+     'images/9_of_diamonds.svg',
+     'images/10_of_diamonds.svg',
+     'images/jack_of_diamonds.svg',
+     'images/queen_of_diamonds.svg',
+     'images/king_of_diamonds.svg',
+     'images/ace_of_spades.svg',
+     'images/2_of_spades.svg',
+     'images/3_of_spades.svg',
+     'images/4_of_spades.svg',
+     'images/5_of_spades.svg',
+     'images/6_of_spades.svg',
+     'images/7_of_spades.svg',
+     'images/8_of_spades.svg',
+     'images/9_of_spades.svg',
+     'images/10_of_spades.svg',
+     'images/jack_of_spades.svg',
+     'images/queen_of_spades.svg',
+     'images/king_of_spades.svg'
+]);
