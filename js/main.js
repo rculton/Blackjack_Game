@@ -462,7 +462,7 @@ var game = {
                 //show them the hand value so they know they busted, and by how much and...
 
                 //Send an alert about the bust
-                var $theAlert = $('<h2>'+ game.currentPlayer.name +' BUST!</h2>')
+                var $theAlert = $('<h3>'+ game.currentPlayer.name +' BUST!</h3>')
                 $theAlert.prependTo($alerts).hide().fadeIn(500, function() {
                     $(this).fadeOut(500, function(){$(this).remove();
                         ;})
@@ -499,6 +499,11 @@ var game = {
             p1TotalWins +=1
             //and update their text
             $p1Wins.text("Player 1 Wins: "+ p1TotalWins)
+            var $theAlert = $('<h3>Player 1 Wins!</h3>')
+            $theAlert.prependTo($alerts).hide().fadeIn(1500, function() {
+                $(this).fadeOut(1500, function(){$(this).remove();
+                    ;})
+              });
         }
         //otherwise if Player2 has a higher score
         else if(game.player[0].score < game.player[1].score){
@@ -506,15 +511,19 @@ var game = {
             p2TotalWins +=1
             //and update their text
             $p2Wins.text("Player 2 Wins: "+ p2TotalWins)
+            var $theAlert = $('<h3>Player 2 Wins!</h3>')
+            $theAlert.prependTo($alerts).hide().fadeIn(1500, function() {
+                $(this).fadeOut(1500, function(){$(this).remove();
+                    ;})
+              });
         }
         //otherwise if they tie
         else{
             //Nobody gets points
-            $alerts.fadeOut(10, function() { 
-                //Tell them they don't get points
-                $alerts.text("Tie Game, no points awarded! Try Again!")
-                $alerts.fadeIn(3000)
-                setTimeout(function(){$alerts.fadeOut(1000)}, 4000)
+            var $theAlert = $('<h3>Nobody Wins! NO POINTS!</h3>')
+            $theAlert.prependTo($alerts).hide().fadeIn(1500, function() {
+                $(this).fadeOut(1500, function(){$(this).remove();
+                    ;})
               });
         }
         //reset player scores for the next round
@@ -566,7 +575,7 @@ var game = {
                 //again prevent anyone from clicking anything
                 isClickable=false;
                 //alert that the house won
-                var $theAlert = $('<h2>House Wins!</h2>')
+                var $theAlert = $('<h3>House Wins!</h3>')
                 $theAlert.prependTo($alerts).hide().fadeIn(500, function() {
                     $(this).fadeOut(500, function(){$(this).remove();
                         ;})
