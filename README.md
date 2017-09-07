@@ -37,7 +37,7 @@ This game requires minimal setup. You should only need to visit the github pages
 This project was developed using trello. User Stories were created to help target work flow and build features. You can find the trello board [here](https://trello.com/b/t0QLkrbU/blackjack).
 
 ##Missing Commits???
-During the process of making this project, I ran into an issue with pushing to my github repository. I worked around this by copying the project and putting it into a new folder. The old commits are visible in the ["Missing Commits" folder]()
+During the process of making this project, I ran into an issue with pushing to my github repository. I worked around this by copying the project and putting it into a new folder. The old commits are visible in the "Missing Commits" folder, or [here](https://github.com/rculton/blackjack-game/commits/master) in the original project. 
 
 ##Closing Notes
 Thank you for taking the time to check out my project. This is my first major project as a web developer, and I'm just learning the ropes of DOM manipulation and javascript. If you have any feedback send it to rculton@protonmail.com
