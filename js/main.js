@@ -379,11 +379,12 @@ var game = {
             //display in proper field
             if (game.currentPlayer === game.player[2]){
                         //image is retrieved from hand
-                    $dealerBoard.append('<img id="" src="' +game.currentPlayer.hand[game.currentPlayer.hand.length -1].faceImg+'"/>')
+                        $('<img id="" src="' +game.currentPlayer.hand[game.currentPlayer.hand.length -1].faceImg+'"/>').hide().appendTo($dealerBoard).fadeIn(500)
                 }
             else{
                     //image is retrieved from hand
-                $playerBoard.append('<img id="" src="' +game.currentPlayer.hand[game.currentPlayer.hand.length -1].faceImg+'"/>')
+                //$playerBoard.append('<img id="" src="' +game.currentPlayer.hand[game.currentPlayer.hand.length -1].faceImg+'"/>').hide().fadeIn('fast')
+                $('<img id="" src="' +game.currentPlayer.hand[game.currentPlayer.hand.length -1].faceImg+'"/>').hide().appendTo($playerBoard).fadeIn(500)
             }
             //remove from deck
             shuffleArray.splice(0,1)
