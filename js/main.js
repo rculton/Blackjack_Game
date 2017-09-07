@@ -1,9 +1,8 @@
 //Card ID array, this is a new deck order index to be used with the cards object
     //This array is used with a disposable shuffling array to add and remove cards from a deck
     //All shuffles will start from new deck order
-var cardIDs = []
-for (var i = 0; i< 52; i++)
-    {
+    var cardIDs = []
+    for (var i = 0; i< 52; i++){
         cardIDs.push(i)
     }
 
@@ -323,8 +322,10 @@ var cards = [{
     }]
 
 //
-var newDeck = false
-var playIndex = 0
+//Variables for game tracking
+    var newDeck = false
+    var playIndex = 0
+//The game itself and its methods    
 var game = {
     //create a list of players with properties
     //players 1, 2, and the dealer itself
@@ -358,8 +359,7 @@ var game = {
 
             var cloneArray = []
             //populate the clone with indexes
-            for (var i = 0; i< 52; i++)
-                {
+            for (var i = 0; i< 52; i++){
                     cloneArray.push(cardIDs[i])
                 }
             shuffleArray = []
@@ -377,8 +377,7 @@ var game = {
             //add to hand
             game.currentPlayer.hand.push(cards[shuffleArray[0]])
             //display in proper field
-            if (game.currentPlayer === game.player[2])
-                {
+            if (game.currentPlayer === game.player[2]){
                         //image is retrieved from hand
                     $dealerBoard.append('<img id="" src="' +game.currentPlayer.hand[game.currentPlayer.hand.length -1].faceImg+'"/>')
                 }
@@ -389,8 +388,7 @@ var game = {
             //remove from deck
             shuffleArray.splice(0,1)
             //check if deck is now empty
-            if (shuffleArray[0] === undefined)
-            {
+            if (shuffleArray[0] === undefined){
                 //if it is, shuffle a new one
                 game.shuffle()
                 
@@ -406,8 +404,7 @@ var game = {
             }
             //check if the new card has busted the player's hand
             game.checkBust()
-            if(game.currentPlayer != game.player[2] && game.currentPlayer.busted)
-                {
+            if(game.currentPlayer != game.player[2] && game.currentPlayer.busted){
                     //if it has, and it's not the dealer, set the hand value to 0 and execute the stay function
                     //to trigger dealer AI
                     game.currentPlayer.handValue = 0;
@@ -527,10 +524,10 @@ var game = {
               });
         }
         //reset player scores for the next round
-        game.player[0].score = 0
-        game.player[1].score = 0
-        $p1Score.text('Current Round Score: ' + game.player[0].score)
-        $p2Score.text('Current Round Score: ' + game.player[1].score)
+            game.player[0].score = 0
+            game.player[1].score = 0
+            $p1Score.text('Current Round Score: ' + game.player[0].score)
+            $p2Score.text('Current Round Score: ' + game.player[1].score)
 
     },
     //Rules for the house play. House MUST either beat the player, or bust.
@@ -548,8 +545,7 @@ var game = {
                 //award them score
                 game.updateScore()
                 //If they finished the deck this round, we need to change players
-                if (newDeck)
-                {
+                if (newDeck){
                     //update the play index
                     playIndex += 1
                     //make sure it's only on Player 1 or Player 2
@@ -636,8 +632,8 @@ var game = {
                         //We always return to insure the logic is stopped in a loop
                         return;
                     }
+                    //if the house has not busted, we must go through our logic again!
                     else{
-                        //if the house has not busted, we must go through our logic again!
                         game.houseRules()
                         //This stops 5000 executions of the same code
                         return;
@@ -703,50 +699,50 @@ var game = {
 }
 
 //add a currentPlayer to the game object, for easier referencing
-game.currentPlayer = game.player[0]
+    game.currentPlayer = game.player[0]
 
  //query the score fields for easy reference
- var $p1Score = $('#p1-Score')
- var $p2Score = $('#p2-Score')
+    var $p1Score = $('#p1-Score')
+    var $p2Score = $('#p2-Score')
 
- //a counter for the current round, and it's jquery field
- var roundCounter = 1
- $roundCounter = $('#round-counter')
+ //a counter for the current round, and the corresponding jquery field
+    var roundCounter = 1
+    $roundCounter = $('#round-counter')
 
  //elements for tracking, displaying, and calculating the wins
- $p1Wins = $('#p1Wins')
- $p2Wins = $('#p2Wins')
- p1TotalWins = 0
- p2TotalWins = 0
+    $p1Wins = $('#p1Wins')
+    $p2Wins = $('#p2Wins')
+    p1TotalWins = 0
+    p2TotalWins = 0
 
  //Alert Box jquery, for later access
- var $alerts = $('.alert-box')
+    var $alerts = $('.alert-box')
 
 //Disposable array of shuffled cards, allows us to maintain a "new deck order" and remove cards from play
-var shuffleArray = []
+    var shuffleArray = []
 //game initialize
-game.shuffle()
+    game.shuffle()
 //jquery of the game board
-$gameBoard = $('.game-board')
-$dealerBoard =$('#dealerZone')
-$playerBoard = $('#playerZone')
+    $gameBoard = $('.game-board')
+    $dealerBoard =$('#dealerZone')
+    $playerBoard = $('#playerZone')
 
 
 //jquery of hand value
-$handValue = $('#hand-value')
+    $handValue = $('#hand-value')
 
-//jquery of all buttons
-$hitButton = $('#hitMe')
-$stayButton = $('#stayButton')
-$resetButton = $('#reset-button')
+//jquery of all buttons are here
+    $hitButton = $('#hitMe')
+    $stayButton = $('#stayButton')
+    $resetButton = $('#reset-button')
 
-//event listeners for all buttons
+//event listeners for all buttons are here
     //hit button deals
-$hitButton.click(function(){game.deal()})
+    $hitButton.click(function(){game.deal()})
     //stay button stays
-$stayButton.click(function(){game.stay()})
+    $stayButton.click(function(){game.stay()})
     //reset button resets
-$resetButton.click(function(){game.reset()})
+    $resetButton.click(function(){game.reset()})
 
 //boolean for clickability, used to prevent players screwing with things they shouldn't
 var isClickable = true;
