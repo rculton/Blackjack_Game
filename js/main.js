@@ -325,6 +325,121 @@ var cards = [{
 //Variables for game tracking
     var newDeck = false
     var playIndex = 0
+
+ //query the score fields for easy reference
+ var $p1Score = $('#p1-Score')
+ var $p2Score = $('#p2-Score')
+
+//a counter for the current round, and the corresponding jquery field
+ var roundCounter = 1
+ $roundCounter = $('#round-counter')
+
+//elements for tracking, displaying, and calculating the wins
+ $p1Wins = $('#p1Wins')
+ $p2Wins = $('#p2Wins')
+ p1TotalWins = 0
+ p2TotalWins = 0
+
+//Alert Box jquery, for later access
+ var $alerts = $('.alert-box')
+
+//Disposable array of shuffled cards, allows us to maintain a "new deck order" and remove cards from play
+ var shuffleArray = []
+//jquery of the game board
+ $gameBoard = $('.game-board')
+ $dealerBoard =$('#dealerZone')
+ $playerBoard = $('#playerZone')
+
+
+//jquery of hand value
+ $handValue = $('#hand-value')
+
+//jquery of all buttons are here
+ $hitButton = $('#hitMe')
+ $stayButton = $('#stayButton')
+ $resetButton = $('#reset-button')
+
+//event listeners for all buttons are here
+ //hit button deals
+ $hitButton.click(function(){game.deal()})
+ //stay button stays
+ $stayButton.click(function(){game.stay()})
+ //reset button resets
+ $resetButton.click(function(){game.reset()})
+
+//boolean for clickability, used to prevent players screwing with things they shouldn't
+var isClickable = true;
+
+//A function for rapid testing. Removes cards from the deck so we can switch player turns faster,
+//check new deck logic, and other such things that require us to empty the deck
+function deckNuker(){
+ shuffleArray.splice(0,shuffleArray.length-1)
+}
+
+//pre-loader for images for more responsive loading in browser
+//Sourced from: https://stackoverflow.com/a/476681
+function preload(arrayOfImages) {
+ $(arrayOfImages).each(function(){
+     $('<img/>')[0].src = this;
+ });
+}
+
+//pre-load
+preload([
+ 'images/ace_of_hearts.svg',
+  'images/2_of_hearts.svg',
+  'images/3_of_hearts.svg',
+  'images/4_of_hearts.svg',
+  'images/5_of_hearts.svg',
+  'images/6_of_hearts.svg',
+  'images/7_of_hearts.svg',
+  'images/8_of_hearts.svg',
+  'images/9_of_hearts.svg',
+  'images/10_of_hearts.svg',
+  'images/jack_of_hearts.svg',
+  'images/queen_of_hearts.svg',
+  'images/king_of_hearts.svg',
+  'images/ace_of_clubs.svg',
+  'images/2_of_clubs.svg',
+  'images/3_of_clubs.svg',
+  'images/4_of_clubs.svg',
+  'images/5_of_clubs.svg',
+  'images/6_of_clubs.svg',
+  'images/7_of_clubs.svg',
+  'images/8_of_clubs.svg',
+  'images/9_of_clubs.svg',
+  'images/10_of_clubs.svg',
+  'images/jack_of_clubs.svg',
+  'images/queen_of_clubs.svg',
+  'images/king_of_clubs.svg',
+  'images/ace_of_diamonds.svg',
+  'images/2_of_diamonds.svg',
+  'images/3_of_diamonds.svg',
+  'images/4_of_diamonds.svg',
+  'images/5_of_diamonds.svg',
+  'images/6_of_diamonds.svg',
+  'images/7_of_diamonds.svg',
+  'images/8_of_diamonds.svg',
+  'images/9_of_diamonds.svg',
+  'images/10_of_diamonds.svg',
+  'images/jack_of_diamonds.svg',
+  'images/queen_of_diamonds.svg',
+  'images/king_of_diamonds.svg',
+  'images/ace_of_spades.svg',
+  'images/2_of_spades.svg',
+  'images/3_of_spades.svg',
+  'images/4_of_spades.svg',
+  'images/5_of_spades.svg',
+  'images/6_of_spades.svg',
+  'images/7_of_spades.svg',
+  'images/8_of_spades.svg',
+  'images/9_of_spades.svg',
+  'images/10_of_spades.svg',
+  'images/jack_of_spades.svg',
+  'images/queen_of_spades.svg',
+  'images/king_of_spades.svg'
+]);
+
 //The game itself and its methods    
 var game = {
     //create a list of players with properties
@@ -336,6 +451,7 @@ var game = {
             handValue: 0,
             score: 0,
             busted: false,
+            scoreField: $p1Score,
         },
         {
             name: 'Player 2',
@@ -344,6 +460,7 @@ var game = {
             handValue:0,
             score: 0,
             busted: false,
+            scoreField: $p2Score,
         },
         {
             name:'House',
@@ -352,6 +469,7 @@ var game = {
             handValue: 0,
             score: 0,
             busted: false,
+            scoreField: $dealerBoard
         }],
     //a function to shuffle our card index    
     //The shuffleArray, which is globally accessable for debugging and testing purposes, will be added to and detracted from
@@ -379,12 +497,12 @@ var game = {
             //display in proper field
             if (game.currentPlayer === game.player[2]){
                         //image is retrieved from hand
-                        $('<img id="" src="' +game.currentPlayer.hand[game.currentPlayer.hand.length -1].faceImg+'"/>').hide().appendTo($dealerBoard).fadeIn(500)
+                        $('<img id="" src="' +game.currentPlayer.hand[game.currentPlayer.hand.length -1].faceImg+'"/>').hide().prependTo($dealerBoard).fadeIn(500)
                 }
             else{
                     //image is retrieved from hand
                 //$playerBoard.append('<img id="" src="' +game.currentPlayer.hand[game.currentPlayer.hand.length -1].faceImg+'"/>').hide().fadeIn('fast')
-                $('<img id="" src="' +game.currentPlayer.hand[game.currentPlayer.hand.length -1].faceImg+'"/>').hide().appendTo($playerBoard).fadeIn(500)
+                $('<img id="" src="' +game.currentPlayer.hand[game.currentPlayer.hand.length -1].faceImg+'"/>').hide().prependTo($playerBoard).fadeIn(500)
             }
             //remove from deck
             shuffleArray.splice(0,1)
@@ -420,7 +538,9 @@ var game = {
         //manipulating the deck in any way
         isClickable=false;
         //set the player to house
+        game.currentPlayer.scoreField.toggleClass("active")
         game.currentPlayer = game.player[2]
+        game.currentPlayer.scoreField.toggleClass("active")
             //execute house logic
             game.houseRules();
     },
@@ -538,10 +658,12 @@ var game = {
         //if the player has 21, they will be awarded a free win regardless of card combination
         //this means more risks can be taken, and more points can be won by the player
         if(game.player[playIndex].handValue === 21){
+            //deactivate dealer indicator
+            game.currentPlayer.scoreField.toggleClass("active")
             //again make sure nothing can be clicked
             isClickable=false;
                 //Player gains score
-                //using the play index, change back to the current player                
+                //using the play index, change back to the current player          
                 game.currentPlayer = game.player[playIndex]
                 //award them score
                 game.updateScore()
@@ -571,7 +693,9 @@ var game = {
         }
         //Otherwise, if the dealer has MORE points or the SAME points than the active player
         else if(game.currentPlayer.handValue >= game.player[playIndex].handValue)
-            {
+            {   
+                //deactivate dealer indicator
+                game.currentPlayer.scoreField.toggleClass("active")
                 //again prevent anyone from clicking anything
                 isClickable=false;
                 //alert that the house won
@@ -596,7 +720,7 @@ var game = {
                     }
                
                 //Wipe hands, same as above
-                    game.handWipe()
+                game.handWipe()
                 return;
             }   
         //otherwise, if the dealer has a LOWER score than the player        
@@ -610,6 +734,7 @@ var game = {
                     isClickable=false;
                     //if we busted
                     if(game.currentPlayer.busted){
+                        game.currentPlayer.scoreField.toggleClass("active")
                             //The player gains score, same as above
                             game.currentPlayer = game.player[playIndex]
                             game.updateScore()
@@ -625,8 +750,10 @@ var game = {
                                             game.updateWins()
                                         }
                                     game.currentPlayer = game.player[playIndex]
+
                                     newDeck = false
-                                }                            
+                                }
+                          
                         //Wipe hands, same as above
                             game.handWipe()
 
@@ -685,9 +812,9 @@ var game = {
         game.player[1].handValue = 0
         game.player[2].handValue = 0
 
-        //reset the player using the player index
+        //reset the player using the player index + active state
         game.currentPlayer = game.player[playIndex] 
-
+        game.currentPlayer.scoreField.toggleClass("active")
         //Let the cards linger for a little bit, then clear the board and allow clicking to happen again
         setTimeout(function() {
             $playerBoard.empty();
@@ -698,122 +825,10 @@ var game = {
 
     },
 }
-
 //add a currentPlayer to the game object, for easier referencing
-    game.currentPlayer = game.player[0]
+game.currentPlayer = game.player[0]
 
- //query the score fields for easy reference
-    var $p1Score = $('#p1-Score')
-    var $p2Score = $('#p2-Score')
-
- //a counter for the current round, and the corresponding jquery field
-    var roundCounter = 1
-    $roundCounter = $('#round-counter')
-
- //elements for tracking, displaying, and calculating the wins
-    $p1Wins = $('#p1Wins')
-    $p2Wins = $('#p2Wins')
-    p1TotalWins = 0
-    p2TotalWins = 0
-
- //Alert Box jquery, for later access
-    var $alerts = $('.alert-box')
-
-//Disposable array of shuffled cards, allows us to maintain a "new deck order" and remove cards from play
-    var shuffleArray = []
 //game initialize
-    game.shuffle()
-//jquery of the game board
-    $gameBoard = $('.game-board')
-    $dealerBoard =$('#dealerZone')
-    $playerBoard = $('#playerZone')
+game.shuffle()
+game.currentPlayer.scoreField.toggleClass("active")
 
-
-//jquery of hand value
-    $handValue = $('#hand-value')
-
-//jquery of all buttons are here
-    $hitButton = $('#hitMe')
-    $stayButton = $('#stayButton')
-    $resetButton = $('#reset-button')
-
-//event listeners for all buttons are here
-    //hit button deals
-    $hitButton.click(function(){game.deal()})
-    //stay button stays
-    $stayButton.click(function(){game.stay()})
-    //reset button resets
-    $resetButton.click(function(){game.reset()})
-
-//boolean for clickability, used to prevent players screwing with things they shouldn't
-var isClickable = true;
-
-//A function for rapid testing. Removes cards from the deck so we can switch player turns faster,
-//check new deck logic, and other such things that require us to empty the deck
-function deckNuker(){
-    shuffleArray.splice(0,shuffleArray.length-1)
-}
-
-//pre-loader for images for more responsive loading in browser
-//Sourced from: https://stackoverflow.com/a/476681
-function preload(arrayOfImages) {
-    $(arrayOfImages).each(function(){
-        $('<img/>')[0].src = this;
-    });
-}
-
-//pre-load
-preload([
-    'images/ace_of_hearts.svg',
-     'images/2_of_hearts.svg',
-     'images/3_of_hearts.svg',
-     'images/4_of_hearts.svg',
-     'images/5_of_hearts.svg',
-     'images/6_of_hearts.svg',
-     'images/7_of_hearts.svg',
-     'images/8_of_hearts.svg',
-     'images/9_of_hearts.svg',
-     'images/10_of_hearts.svg',
-     'images/jack_of_hearts.svg',
-     'images/queen_of_hearts.svg',
-     'images/king_of_hearts.svg',
-     'images/ace_of_clubs.svg',
-     'images/2_of_clubs.svg',
-     'images/3_of_clubs.svg',
-     'images/4_of_clubs.svg',
-     'images/5_of_clubs.svg',
-     'images/6_of_clubs.svg',
-     'images/7_of_clubs.svg',
-     'images/8_of_clubs.svg',
-     'images/9_of_clubs.svg',
-     'images/10_of_clubs.svg',
-     'images/jack_of_clubs.svg',
-     'images/queen_of_clubs.svg',
-     'images/king_of_clubs.svg',
-     'images/ace_of_diamonds.svg',
-     'images/2_of_diamonds.svg',
-     'images/3_of_diamonds.svg',
-     'images/4_of_diamonds.svg',
-     'images/5_of_diamonds.svg',
-     'images/6_of_diamonds.svg',
-     'images/7_of_diamonds.svg',
-     'images/8_of_diamonds.svg',
-     'images/9_of_diamonds.svg',
-     'images/10_of_diamonds.svg',
-     'images/jack_of_diamonds.svg',
-     'images/queen_of_diamonds.svg',
-     'images/king_of_diamonds.svg',
-     'images/ace_of_spades.svg',
-     'images/2_of_spades.svg',
-     'images/3_of_spades.svg',
-     'images/4_of_spades.svg',
-     'images/5_of_spades.svg',
-     'images/6_of_spades.svg',
-     'images/7_of_spades.svg',
-     'images/8_of_spades.svg',
-     'images/9_of_spades.svg',
-     'images/10_of_spades.svg',
-     'images/jack_of_spades.svg',
-     'images/queen_of_spades.svg',
-     'images/king_of_spades.svg'
-]);

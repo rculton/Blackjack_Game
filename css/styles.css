@@ -6,6 +6,10 @@ body{
     
 }
 
+.active{
+    border: 2px solid gold;
+}
+
 div {
     display: inline-block;
     width: 49%;
@@ -75,10 +79,10 @@ hr{
 
 img{
     width: 22%;
-    height: 49%;
+    height: 48%;
     display: inline-block;
     margin: 0 auto;
-    padding: 1%;
+    padding: 0.5%;
 }
 #SUPERDIV {
     width: 76vw;
