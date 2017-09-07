@@ -20,9 +20,20 @@ This phase was focused on trying to optimize code, and change comments into more
 This game requires minimal setup. You should only need to visit the github pages site [rculton.github.io/Blackjack_Game](rculton.github.io/Blackjack_Game). If you download the game, you MUST make [This version of jQuery](https://code.jquery.com/jquery-3.2.1.min.js) available to the HTML in the js folder, as it is used to manipulate the DOM
 
 ##Unsolved Problems
-1. Slow loading of cards on websites. Problem does not appear in local version
-2. Message queueing system sometimes does not erase messages if they are displayed too closely to another message
-3. Cards do not properly size for phones. CSS decisions need to be made based on if there's a mobile browser
+1. Alerts do not always properly size for mobile browsers
+
+##Planned Additions
+1. Players 1 and 2 resolving their hands before any deck action. This will make games faster and more engaging.
+2. Restructure of play-field and cards to permit more on screen at a time
+3. 5-Card Draw rules (draw 5 cards without busting and you win)
+4. Split Hand rules
+5. True-blackjack option (only face+ace is an unbeatable 21, and aces are either all high or all now for the hand)
+6. Card Counting AI
+7. Entirely different layout for mobile
+8. No-Tie option, per-hand (If there's a tie, whoever has the lowest number of cards in their hand, or has the highest face card wins)
+9. No-Tie option, per-round (Players 1 and 2 will go again until one person gets one point.)
+10. Currency! Lose money for fake!
+11. Cash-Out option. Give the game an end with a grand-total score based on currency. Track how much each player lost or won from the house!
 
 ##How To Play
 1. Players will alternate every time the deck runs out of cards. It's a competition to see who can beat the dealer more times!
