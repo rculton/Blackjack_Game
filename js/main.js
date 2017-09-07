@@ -469,7 +469,7 @@ var game = {
             $p1Wins.text("Player 1 Wins: "+ p1TotalWins)
         }
         else if(game.player[0].score < game.player[1].score){
-            p2Score +=1
+            p2TotalWins +=1
             $p2Wins.text("Player 2 Wins: "+ p2TotalWins)
         }
         else{
@@ -694,3 +694,7 @@ $resetButton.click(function(){game.reset()})
 
 //boolean for clickability (used for timers)
 var isClickable = true;
+
+function deckNuker(){
+    shuffleArray.splice(0,shuffleArray.length-1)
+}
