@@ -529,6 +529,9 @@ var game = {
         //reset player scores for the next round
         game.player[0].score = 0
         game.player[1].score = 0
+        $p1Score.text('Current Round Score: ' + game.player[0].score)
+        $p2Score.text('Current Round Score: ' + game.player[1].score)
+
     },
     //Rules for the house play. House MUST either beat the player, or bust.
     houseRules: function(){
