@@ -1,4 +1,6 @@
 //Card ID array, this is a new deck order index to be used with the cards object
+    //This array is used with a disposable shuffling array to add and remove cards from a deck
+    //All shuffles will start from new deck order
 var cardIDs = []
 for (var i = 0; i< 52; i++)
     {
@@ -6,6 +8,7 @@ for (var i = 0; i< 52; i++)
     }
 
 //List of Cards, these are in New Deck Order and indexed with cardIDs
+    //This is really awful to read through, it's literally just cards, so you can assume everything
 var cards = [{
     rank: 'ace',
     suit: 'hearts',
@@ -324,6 +327,7 @@ var newDeck = false
 var playIndex = 0
 var game = {
     //create a list of players with properties
+    //players 1, 2, and the dealer itself
     player: [{
             name: 'Player 1',
             index: 0,
@@ -349,25 +353,30 @@ var game = {
             busted: false,
         }],
     //a function to shuffle our card index    
+    //The shuffleArray, which is globally accessable for debugging and testing purposes, will be added to and detracted from
     shuffle: function(){
 
             var cloneArray = []
-            //populate the clone
+            //populate the clone with indexes
             for (var i = 0; i< 52; i++)
                 {
                     cloneArray.push(cardIDs[i])
                 }
             shuffleArray = []
             var randomCard
+            //Populate the deck
             for (var i=0; i<52; i++){
                 randomCard = Math.floor(Math.random()*cloneArray.length)
                 shuffleArray.push(cloneArray[randomCard])
             }           
     },
-    //A function to put cards into players "hands"
+
+    //A function to put cards into players "hands," and display the cards on the board
     deal: function(){
-        if(isClickable){    
+        if(isClickable){   
+            //add to hand
             game.currentPlayer.hand.push(cards[shuffleArray[0]])
+            //display in proper field
             if (game.currentPlayer === game.player[2])
                 {
                     $dealerBoard.append('<img id="" src="' +cards[shuffleArray[0]].faceImg+'"/>')
@@ -375,13 +384,15 @@ var game = {
             else{
                 $playerBoard.append('<img id="" src="' +cards[shuffleArray[0]].faceImg+'"/>')
             }
-            //$gameBoard.append('<img id="" src="' +cards[shuffleArray[0]].faceImg+'"/>')
+            //remove from deck
             shuffleArray.splice(0,1)
+            //check if deck is now empty
             if (shuffleArray[0] === undefined)
             {
+                //if it is, shuffle a new one
                 game.shuffle()
                 
-                   // $(this).text("Deck is out of cards, new deck in play for remainder of round")
+                   //Alert the player that their round is nearly up! 
                    var $theAlert = $('<h3>Deck is out of cards! New Deck in play for remainder of round!</h3>')
                    $theAlert.prependTo($alerts).hide().fadeIn(1000)
                    setTimeout(function() {
@@ -391,13 +402,12 @@ var game = {
 
                 newDeck = true
             }
-            for (var i=0; i<game.currentPlayer.hand.length; i++)
-                {
-                //console.log(game.currentPlayer.name + "'s hand: " + game.currentPlayer.hand[i].rank + " of " + game.currentPlayer.hand[i].suit)
-                }
+            //check if the new card has busted the player's hand
             game.checkBust()
             if(game.currentPlayer != game.player[2] && game.currentPlayer.busted)
                 {
+                    //if it has, and it's not the dealer, set the hand value to 0 and execute the stay function
+                    //to trigger dealer AI
                     game.currentPlayer.handValue = 0;
 
                     game.stay()
@@ -406,111 +416,147 @@ var game = {
     },
     //A function to perform "stay" action. Possible use later when switching between 2 players BEFORE going to house
     stay: function(){
-        // debugger
+        //Remove the clickability of the buttons to prevent players from
+        //manipulating the deck in any way
         isClickable=false;
-
+        //set the player to house
+        game.currentPlayer = game.player[2]
+            //execute house logic
             game.houseRules();
     },
+
     //check for hand value, and if it exceeds 21
     checkBust: function(){
+        //we need a temporary place to track the current value
         var totalValue = 0;
         for (var i=0; i<game.currentPlayer.hand.length; i++)
             {
+                //Build the value using the players hand
                totalValue += game.currentPlayer.hand[i].value
             }
         if (totalValue > 21)
             {
+                //if it's over 21, we need to see if there's aces
                 //Check if there's an ace and reassign the value to 1
                 for (var i=0; i<game.currentPlayer.hand.length; i++)
                     {
                         if(game.currentPlayer.hand[i].rank === 'ace' && game.currentPlayer.hand[i].value === 11){
                             game.currentPlayer.hand[i].value=1
-                            //Check again
+                            //Check again if there is an ace, in this game, aces can be individually high or low
+                            //This makes it easier to beat the house, and take risks to out-score your opponent
+
                             game.checkBust()
-                            //Do not return to function
+                            //Do not return to function, otherwise you'll break everything. 
+                            //We don't want to run the code outside of here 100 times!
                             return;
                         }
     
                     }
-                //if there's no ace, then the player has busted and the function is over
-                //Bust Actions
-                //
-                //
+                //If we didn't find any aces
                 isClickable=false;
+                //don't let the player hit again
                 game.currentPlayer.handValue = totalValue
                 $handValue.text('Hand Value: '+ game.currentPlayer.handValue)
+                //show them the hand value so they know they busted, and by how much and...
+
+                //Send an alert about the bust
                 var $theAlert = $('<h2>' + game.currentPlayer.name.toUpperCase() +' BUST!</h2>')
                 $theAlert.prependTo($alerts).hide().slideDown(500, function(){
                     $alerts.children("h2:first").fadeOut(1000, function(){$(this).remove();})
                 }) 
                 game.currentPlayer.busted = true;
                 game.currentPlayer.handValue = 0;
+                //empty their actual hand value (for later math), and set them to a busted state
                 return;
             }
         else{
-            //Player has not busted
+            //If the player has not busted
             game.currentPlayer.handValue = totalValue
             $handValue.text('Hand Value: '+ game.currentPlayer.handValue)
+            //update the display of their current hand's value
             game.currentPlayer.busted = false;
+            //make sure this is set to false. They should not be able to get here anyways, but this makes sure it's safe
             return;
         }
     },
+
     //Update the score of the players during round
     updateScore: function(){
             game.currentPlayer.score += 1
+            //Whoever the current player is, incriment it by one and update both fields
             $p1Score.text('Current Round Score: ' + game.player[0].score)
             $p2Score.text('Current Round Score: ' + game.player[1].score)
     },
+
     //Update the win count, and reset the scores
     updateWins: function(){
+        //if Player1 has a higher score
         if(game.player[0].score > game.player[1].score){
+            //add to their wins
             p1TotalWins +=1
-            console.log("I'M HERE")
+            //and update their text
             $p1Wins.text("Player 1 Wins: "+ p1TotalWins)
         }
+        //otherwise if Player2 has a higher score
         else if(game.player[0].score < game.player[1].score){
+            //update their wins
             p2TotalWins +=1
+            //and update their text
             $p2Wins.text("Player 2 Wins: "+ p2TotalWins)
         }
+        //otherwise if they tie
         else{
+            //Nobody gets points
             $alerts.fadeOut(10, function() { 
+                //Tell them they don't get points
                 $alerts.text("Tie Game, no points awarded! Try Again!")
                 $alerts.fadeIn(3000)
                 setTimeout(function(){$alerts.fadeOut(1000)}, 4000)
               });
         }
+        //reset player scores for the next round
         game.player[0].score = 0
         game.player[1].score = 0
     },
-    //AI for the house play. House MUST either beat the player, or bust.
+    //Rules for the house play. House MUST either beat the player, or bust.
     houseRules: function(){
-        game.currentPlayer = game.player[2]
+        //set the current player to house by force.
+
+        //if the player has 21, they will be awarded a free win regardless of card combination
+        //this means more risks can be taken, and more points can be won by the player
         if(game.player[playIndex].handValue === 21){
+            //again make sure nothing can be clicked
             isClickable=false;
-                //Player gains score                
+                //Player gains score
+                //using the play index, change back to the current player                
                 game.currentPlayer = game.player[playIndex]
+                //award them score
                 game.updateScore()
-                //change if new deck
+                //If they finished the deck this round, we need to change players
                 if (newDeck)
                 {
+                    //update the play index
                     playIndex += 1
+                    //make sure it's only on Player 1 or Player 2
                     if (playIndex === 2)
                         {
                             playIndex = 0
+                            //if Player 2 has finished their turn, we need to update the rounds and wins
                             roundCounter +=1
                             $roundCounter.text('Round: ' + roundCounter)
                             game.updateWins()
 
 
                         }
+                    //change to the next player
                     game.currentPlayer = game.player[playIndex]
+                    //reset the deck flag
                     newDeck = false
                 }           
-                //Wipe hands
+                //Wipe all hands and displayed scores
                 game.player[0].busted = false
                 game.player[1].busted = false
                 game.player[2].busted = false
-                newDeck = false
 
                 game.player[0].hand = []
                 game.player[1].hand = []
@@ -527,17 +573,19 @@ var game = {
 
                 return;
         }
+        //Otherwise, if the dealer has MORE points or the SAME points than the active player
         else if(game.currentPlayer.handValue >= game.player[playIndex].handValue)
             {
+                //again prevent anyone from clicking anything
                 isClickable=false;
+                //alert that the house won
                 var $theAlert = $('<h2>House Wins!</h2>')
                 $theAlert.prependTo($alerts).hide().slideDown(1000, function() {
                     $(this).fadeOut(1000, function(){$(this).remove();
                         ;})
                   });
-                //console.log('House Wins!')
-                //House Wins
-                //change players if new deck
+
+                //change players if new deck, same logic as above
                 if (newDeck)
                     {
                         playIndex += 1
@@ -551,37 +599,40 @@ var game = {
                         newDeck = false
                     }
                
-                //Wipe hands
-                game.player[0].busted = false
-                game.player[1].busted = false
-                game.player[2].busted = false   
-                game.player[0].hand = []
-                game.player[1].hand = []
-                game.player[2].hand = []
-                game.player[0].handValue = 0
-                game.player[1].handValue = 0
-                game.player[2].handValue = 0
-                game.currentPlayer = game.player[playIndex] 
-                setTimeout(function() {
-                    $playerBoard.empty();
-                    $dealerBoard.empty();
-                    $handValue.text('Hand Value: '+ 0)
-                    console.log('Hello there!')
-                    isClickable=true;
-                  }, 1500);
+                //Wipe hands, same as above
+                    game.player[0].busted = false
+                    game.player[1].busted = false
+                    game.player[2].busted = false   
+                    game.player[0].hand = []
+                    game.player[1].hand = []
+                    game.player[2].hand = []
+                    game.player[0].handValue = 0
+                    game.player[1].handValue = 0
+                    game.player[2].handValue = 0
+                    game.currentPlayer = game.player[playIndex] 
+                    setTimeout(function() {
+                        $playerBoard.empty();
+                        $dealerBoard.empty();
+                        $handValue.text('Hand Value: '+ 0)
+                        isClickable=true;
+                      }, 1500);
                 return;
-            }           
+            }   
+        //otherwise, if the dealer has a LOWER score than the player        
         else if(game.currentPlayer.handValue < game.player[playIndex].handValue)
             {
+                    //temporarily set the flag so we can deal
                     isClickable=true;
+                    //deal
                     game.deal();
+                    //and reset the flag
                     isClickable=false;
+                    //if we busted
                     if(game.currentPlayer.busted){
-                            //Player gains score
-                             
+                            //The player gains score, same as above
                             game.currentPlayer = game.player[playIndex]
                             game.updateScore()
-                            //change if new deck
+                            //change if new deck, same as above
                             if (newDeck)
                                 {
                                     playIndex += 1
@@ -595,29 +646,30 @@ var game = {
                                     game.currentPlayer = game.player[playIndex]
                                     newDeck = false
                                 }                            
-                        //Wipe hands
-                        game.player[0].busted = false
-                        game.player[1].busted = false
-                        game.player[2].busted = false
-                        newDeck = false
-    
-                        game.player[0].hand = []
-                        game.player[1].hand = []
-                        game.player[2].hand = []
-                        game.player[0].handValue = 0
-                        game.player[1].handValue = 0
-                        game.player[2].handValue = 0
-                        setTimeout(function() {
-                            $playerBoard.empty();
-                            $dealerBoard.empty();
-                            $handValue.text('Hand Value: '+ 0);      
-                            isClickable=true;    
-                          }, 1500);
+                        //Wipe hands, same as above
+                            game.player[0].busted = false
+                            game.player[1].busted = false
+                            game.player[2].busted = false   
+                            game.player[0].hand = []
+                            game.player[1].hand = []
+                            game.player[2].hand = []
+                            game.player[0].handValue = 0
+                            game.player[1].handValue = 0
+                            game.player[2].handValue = 0
+                            setTimeout(function() {
+                                $playerBoard.empty();
+                                $dealerBoard.empty();
+                                $handValue.text('Hand Value: '+ 0);      
+                                isClickable=true;    
+                              }, 1500);
 
+                        //We always return to insure the logic is stopped in a loop
                         return;
                     }
                     else{
+                        //if the house has not busted, we must go through our logic again!
                         game.houseRules()
+                        //This stops 5000 executions of the same code
                         return;
                     }
             }
@@ -650,7 +702,7 @@ var game = {
 //add a currentPlayer to the game object, for easier referencing
 game.currentPlayer = game.player[0]
 
- //pre-query the sore fields for easy reference
+ //query the score fields for easy reference
  var $p1Score = $('#p1-Score')
  var $p2Score = $('#p2-Score')
 
@@ -686,15 +738,18 @@ $stayButton = $('#stayButton')
 $resetButton = $('#reset-button')
 
 //event listeners for all buttons
-
-$hitButton.click(function(){
-    game.deal()})
+    //hit button deals
+$hitButton.click(function(){game.deal()})
+    //stay button stays
 $stayButton.click(function(){game.stay()})
+    //reset button resets
 $resetButton.click(function(){game.reset()})
 
-//boolean for clickability (used for timers)
+//boolean for clickability, used to prevent players screwing with things they shouldn't
 var isClickable = true;
 
+//A function for rapid testing. Removes cards from the deck so we can switch player turns faster,
+//check new deck logic, and other such things that require us to empty the deck
 function deckNuker(){
     shuffleArray.splice(0,shuffleArray.length-1)
 }
