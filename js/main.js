@@ -379,10 +379,12 @@ var game = {
             //display in proper field
             if (game.currentPlayer === game.player[2])
                 {
-                    $dealerBoard.append('<img id="" src="' +cards[shuffleArray[0]].faceImg+'"/>')
+                        //image is retrieved from hand
+                    $dealerBoard.append('<img id="" src="' +game.currentPlayer.hand[game.currentPlayer.hand.length -1].faceImg+'"/>')
                 }
             else{
-                $playerBoard.append('<img id="" src="' +cards[shuffleArray[0]].faceImg+'"/>')
+                    //image is retrieved from hand
+                $playerBoard.append('<img id="" src="' +game.currentPlayer.hand[game.currentPlayer.hand.length -1].faceImg+'"/>')
             }
             //remove from deck
             shuffleArray.splice(0,1)
@@ -393,11 +395,11 @@ var game = {
                 game.shuffle()
                 
                    //Alert the player that their round is nearly up! 
-                   var $theAlert = $('<h3>Deck is out of cards! New Deck in play for remainder of round!</h3>')
-                   $theAlert.prependTo($alerts).hide().fadeIn(1000)
-                   setTimeout(function() {
-                    $alerts.children("h3:first").fadeOut(1000, function(){$(this).remove()})
-                  }, 4000);  
+                   var $theAlert = $('<h3>Deck is out of cards. New deck in play until end of round! LAST CHANCE!</h3>')
+                   $theAlert.prependTo($alerts).hide().fadeIn(500, function() {
+                       $(this).fadeOut(2000, function(){$(this).remove();
+                           ;})
+                     });
 
 
                 newDeck = true
@@ -460,10 +462,11 @@ var game = {
                 //show them the hand value so they know they busted, and by how much and...
 
                 //Send an alert about the bust
-                var $theAlert = $('<h2>' + game.currentPlayer.name.toUpperCase() +' BUST!</h2>')
-                $theAlert.prependTo($alerts).hide().slideDown(500, function(){
-                    $alerts.children("h2:first").fadeOut(1000, function(){$(this).remove();})
-                }) 
+                var $theAlert = $('<h2>'+ game.currentPlayer.name +' BUST!</h2>')
+                $theAlert.prependTo($alerts).hide().fadeIn(500, function() {
+                    $(this).fadeOut(500, function(){$(this).remove();
+                        ;})
+                  });
                 game.currentPlayer.busted = true;
                 game.currentPlayer.handValue = 0;
                 //empty their actual hand value (for later math), and set them to a busted state
@@ -554,23 +557,7 @@ var game = {
                     newDeck = false
                 }           
                 //Wipe all hands and displayed scores
-                game.player[0].busted = false
-                game.player[1].busted = false
-                game.player[2].busted = false
-
-                game.player[0].hand = []
-                game.player[1].hand = []
-                game.player[2].hand = []
-                game.player[0].handValue = 0
-                game.player[1].handValue = 0
-                game.player[2].handValue = 0
-                setTimeout(function() {
-                    $playerBoard.empty();
-                    $dealerBoard.empty();
-                    $handValue.text('Hand Value: '+ 0)
-                    isClickable=true;
-                  }, 1000);
-
+                    game.handWipe()
                 return;
         }
         //Otherwise, if the dealer has MORE points or the SAME points than the active player
@@ -580,8 +567,8 @@ var game = {
                 isClickable=false;
                 //alert that the house won
                 var $theAlert = $('<h2>House Wins!</h2>')
-                $theAlert.prependTo($alerts).hide().slideDown(1000, function() {
-                    $(this).fadeOut(1000, function(){$(this).remove();
+                $theAlert.prependTo($alerts).hide().fadeIn(500, function() {
+                    $(this).fadeOut(500, function(){$(this).remove();
                         ;})
                   });
 
@@ -600,22 +587,7 @@ var game = {
                     }
                
                 //Wipe hands, same as above
-                    game.player[0].busted = false
-                    game.player[1].busted = false
-                    game.player[2].busted = false   
-                    game.player[0].hand = []
-                    game.player[1].hand = []
-                    game.player[2].hand = []
-                    game.player[0].handValue = 0
-                    game.player[1].handValue = 0
-                    game.player[2].handValue = 0
-                    game.currentPlayer = game.player[playIndex] 
-                    setTimeout(function() {
-                        $playerBoard.empty();
-                        $dealerBoard.empty();
-                        $handValue.text('Hand Value: '+ 0)
-                        isClickable=true;
-                      }, 1500);
+                    game.handWipe()
                 return;
             }   
         //otherwise, if the dealer has a LOWER score than the player        
@@ -647,21 +619,7 @@ var game = {
                                     newDeck = false
                                 }                            
                         //Wipe hands, same as above
-                            game.player[0].busted = false
-                            game.player[1].busted = false
-                            game.player[2].busted = false   
-                            game.player[0].hand = []
-                            game.player[1].hand = []
-                            game.player[2].hand = []
-                            game.player[0].handValue = 0
-                            game.player[1].handValue = 0
-                            game.player[2].handValue = 0
-                            setTimeout(function() {
-                                $playerBoard.empty();
-                                $dealerBoard.empty();
-                                $handValue.text('Hand Value: '+ 0);      
-                                isClickable=true;    
-                              }, 1500);
+                            game.handWipe()
 
                         //We always return to insure the logic is stopped in a loop
                         return;
@@ -674,9 +632,11 @@ var game = {
                     }
             }
     },
-    //Reset the game to a starting state
+    //Reset the game to a starting state.
+    //All values are zeroed, the deck is reshuffled, the text is returned to
+    // a starting state, and clickability returns
     reset: function(){
-        game.currentPlayer=game.player[0]
+        playIndex = 0
         game.player[0].score=-1;
         game.player[1].score=0;
         game.player[0].handValue = 0;
@@ -685,18 +645,49 @@ var game = {
         game.player[0].busted = false;
         game.player[1].busted=false;
         game.player[2].busted=false;
-        p1Score=0
-        p2Score=0
-        game.shuffle()
-        game.updateScore()
-        $p1Wins.text("Player 1 Wins: "+ p1Score)
-        $p2Wins.text("Player 2 Wins: "+ p2Score)
-        roundCounter = 1
-        $roundCounter.text('Round: '+ roundCounter)
-        $handValue.text('Hand Value: '+ game.currentPlayer.handValue)
+        p1Score=0;
+        p2Score=0;
+        game.shuffle();
+        game.updateScore();
+        $p1Wins.text("Player 1 Wins: "+ p1Score);
+        $p2Wins.text("Player 2 Wins: "+ p2Score);
+        roundCounter = 1;
+        $roundCounter.text('Round: '+ roundCounter);
+        $handValue.text('Hand Value: '+ game.currentPlayer.handValue);
         $playerBoard.empty();
         $dealerBoard.empty();
-    }
+        isClickable = true;
+    },
+    //Wipe the hands for a clean play
+    handWipe : function(){
+
+        //Remove all states of players being busted
+        game.player[0].busted = false
+        game.player[1].busted = false
+        game.player[2].busted = false   
+
+        //empty the cards in every hand
+        game.player[0].hand = []
+        game.player[1].hand = []
+        game.player[2].hand = []
+
+        //reset the values of the hands
+        game.player[0].handValue = 0
+        game.player[1].handValue = 0
+        game.player[2].handValue = 0
+
+        //reset the player using the player index
+        game.currentPlayer = game.player[playIndex] 
+
+        //Let the cards linger for a little bit, then clear the board and allow clicking to happen again
+        setTimeout(function() {
+            $playerBoard.empty();
+            $dealerBoard.empty();
+            $handValue.text('Hand Value: '+ 0)
+            isClickable=true;
+          }, 1500);
+
+    },
 }
 
 //add a currentPlayer to the game object, for easier referencing
