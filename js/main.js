@@ -386,7 +386,7 @@ function preload(arrayOfImages) {
  });
 }
 
-//pre-load
+//pre-load images
 preload([
  'images/ace_of_hearts.svg',
   'images/2_of_hearts.svg',

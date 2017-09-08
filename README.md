@@ -35,7 +35,7 @@ The project was broken down into 3 major phases.
 This phase primarily focused on making the rules of blackjack function **WITHOUT** any css or html to support it. This was to insure that the logical structure of the game was sound before we added any DOM manipulation, or had to worry about the graphical interface.
 
 #### Phase 2: Graphics
-This phase focused on building an interface for the player, so they could see visual representations of the game logic. This added the board the cards, DOM manipulation, message-based feedback on events,  and clickable controls
+This phase focused on building an interface for the player, so they could see visual representations of the game logic. This added the board the cards, DOM manipulation, message-based feedback on events,  and clickable controls. This started with wire framing the design, then adding the html skeleton and the css styling.
 
 #### Phase 3: Cleanup
 This phase was focused on trying to optimize code, and change comments into more readable sentences, rather than loosely descriptive keyword phrases. The primary goal of this phase is to add longevity to the projects life, giving easier opportunity for anyone to return to it and change things
