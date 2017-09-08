@@ -373,7 +373,9 @@ var isClickable = true;
 //A function for rapid testing. Removes cards from the deck so we can switch player turns faster,
 //check new deck logic, and other such things that require us to empty the deck
 function deckNuker(){
- shuffleArray.splice(0,shuffleArray.length-1)
+    shuffleArray.splice(0,shuffleArray.length-1)
+    var audio = new Audio('sounds/poofSound.mp3')
+    audio.play()
 }
 
 //pre-loader for images for more responsive loading in browser
@@ -486,12 +488,16 @@ var game = {
             for (var i=0; i<52; i++){
                 randomCard = Math.floor(Math.random()*cloneArray.length)
                 shuffleArray.push(cloneArray[randomCard])
-            }           
+            }
+            var audio = new Audio('sounds/cardShuffle.mp3');
+            audio.play();           
     },
 
     //A function to put cards into players "hands," and display the cards on the board
     deal: function(){
-        if(isClickable){   
+        if(isClickable){
+            var audio = new Audio('sounds/cardPlace1.wav');
+            audio.play();   
             //add to hand
             game.currentPlayer.hand.push(cards[shuffleArray[0]])
             //display in proper field
